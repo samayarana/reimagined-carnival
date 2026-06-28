@@ -8,6 +8,7 @@ const {
   ActivityType,
 } = require("discord.js");
 const { LavalinkManager } = require("lavalink-client");
+const express = require("express");
 
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
 const TOKEN          = "MTE5MDE0OTczMTM2MDQ1Njc2Ng.GZlIkI.qn4kwUJDZhgXc1TtZQrVIMtv14T39EEjH_IkpA";
@@ -19,7 +20,68 @@ const LAVALINK_HOST     = "nodelink-full-setup.onrender.com";
 const LAVALINK_PORT     = 443
 const LAVALINK_PASSWORD = "yourpassword"
 
+const HTTP_PORT = process.env.PORT || 3000;
 const COLOR = 0x5865F2;
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ─── EXPRESS HTTP SERVER ──────────────────────────────────────────────────────
+const app = express();
+
+// Middleware
+app.use(express.json());
+
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    bot: client?.user?.username || "Offline",
+    uptime: client?.uptime || 0,
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// Bot status endpoint
+app.get("/status", (req, res) => {
+  const botReady = client?.isReady();
+  const llNode = client?.lavalink?.nodeManager?.getNode("main-node");
+  
+  res.status(200).json({
+    bot: {
+      ready: botReady,
+      username: client?.user?.username || "Unknown",
+      id: client?.user?.id || "Unknown",
+      uptime: client?.uptime || 0,
+    },
+    lavalink: {
+      alive: llNode?.isAlive || false,
+      ping: llNode?.heartBeatPing || null,
+    },
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// Root endpoint
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Discord Music Bot API",
+    endpoints: {
+      health: "/health",
+      status: "/status",
+      version: "1.0.0",
+    },
+  });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: "Endpoint not found" });
+});
+
+// Start HTTP server
+app.listen(HTTP_PORT, () => {
+  console.log(`📡 HTTP Server running on port ${HTTP_PORT}`);
+});
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ─── EMBED HELPERS ───────────────────────────────────────────────────────────
