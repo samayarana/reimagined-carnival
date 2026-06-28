@@ -147,7 +147,7 @@ client.lavalink = new LavalinkManager({
       port: LAVALINK_PORT,
       authorization: LAVALINK_PASSWORD,
       id: "main-node",
-      secure: true,
+      secure: false,
     },
   ],
   sendToShard: (guildId, payload) => {
