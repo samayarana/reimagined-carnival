@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const {
   Client,
   GatewayIntentBits,
@@ -11,17 +13,20 @@ const { LavalinkManager } = require("lavalink-client");
 const express = require("express");
 
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
-const TOKEN          = "MTE5MDE0OTczMTM2MDQ1Njc2Ng.GZlIkI.qn4kwUJDZhgXc1TtZQrVIMtv14T39EEjH_IkpA";
+const TOKEN          = process.env.TOKEN;
 const CLIENT_ID      = "1190149731360456766";
 const INVITE_LINK    = "https://discord.com/oauth2/authorize?client_id=1190149731360456766";
 const SUPPORT_SERVER = "https://discord.gg/ZHuvUA6PZg";
 
 const LAVALINK_HOST     = "nodelink-full-setup.onrender.com";
-const LAVALINK_PORT     = 443
-const LAVALINK_PASSWORD = "yourpassword"
+const LAVALINK_PORT     = 443;
+const LAVALINK_PASSWORD = "yourpassword";
 
 const HTTP_PORT = process.env.PORT || 3000;
 const COLOR = 0x5865F2;
+
+// ─── VALIDATION ──────────────────────────────────────────────────────────────
+if (!TOKEN) throw new Error("TOKEN environment variable is not set");
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ─── EXPRESS HTTP SERVER ──────────────────────────────────────────────────────
