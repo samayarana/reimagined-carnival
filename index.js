@@ -18,9 +18,9 @@ const CLIENT_ID      = "1190149731360456766";
 const INVITE_LINK    = "https://discord.com/oauth2/authorize?client_id=1190149731360456766";
 const SUPPORT_SERVER = "https://discord.gg/ZHuvUA6PZg";
 
-const LAVALINK_HOST     = "nodelink-full-setup.onrender.com";
-const LAVALINK_PORT     = 443;
-const LAVALINK_PASSWORD = "yourpassword";
+const LAVALINK_HOST     = "ny-us-01.soulixer.in";
+const LAVALINK_PORT     = 25444;
+const LAVALINK_PASSWORD = "yourpass1";
 
 const HTTP_PORT = process.env.PORT || 3000;
 const COLOR = 0x5865F2;
